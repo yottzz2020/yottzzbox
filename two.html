@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+<a href="index.html"><img src="서재로고.png" onmouseover="this.src='서재로고2.png';" onmouseout="this.src='서재로고.png';"> </a>
+    <meta charset="utf-8">
+    <title>YOTTZZ의 서재</title>
+    <link rel="shortcut icon" href="김요한.ico">
+    <style type="text/css">* {cursor: url(https://mail.google.com/mail/u/0?ui=2&ik=1240b99059&attid=0.1&permmsgid=msg-a:r-2150421553617946275&view=att&disp=safe&realattid=f_k7isplkd0), auto !important;}</style>
+
+    <script type="text/javascript">
+    // <![CDATA[
+    var colours=new Array('#f00', '#f06', '#f0f', '#f6f', '#f39', '#f9c'); // colours of the hearts
+    var minisize=16; // smallest size of hearts in pixels
+    var maxisize=28; // biggest size of hearts in pixels
+    var hearts=66; // maximum number of hearts on screen
+    var over_or_under="over"; // set to "over" for hearts to always be on top, or "under" to allow them to float behind other objects
+
+    /*****************************
+    *JavaScript Love Heart Cursor*
+    *  (c)2013+ mf2fm web-design *
+    *   http://www.mf2fm.com/rv  *
+    *  DON'T EDIT BELOW THIS BOX *
+    *****************************/
+    var x=ox=400;
+    var y=oy=300;
+    var swide=800;
+    var shigh=600;
+    var sleft=sdown=0;
+    var herz=new Array();
+    var herzx=new Array();
+    var herzy=new Array();
+    var herzs=new Array();
+    var kiss=false;
+
+    if (typeof('addRVLoadEvent')!='function') function addRVLoadEvent(funky) {
+      var oldonload=window.onload;
+      if (typeof(oldonload)!='function') window.onload=funky;
+      else window.onload=function() {
+        if (oldonload) oldonload();
+        funky();
+      }
+    }
+
+    addRVLoadEvent(mwah);
+
+    function mwah() { if (document.getElementById) {
+      var i, heart;
+      for (i=0; i<hearts; i++) {
+        heart=createDiv("auto", "auto");
+        heart.style.visibility="hidden";
+    	heart.style.zIndex=(over_or_under=="over")?"1001":"0";
+        heart.style.color=colours[i%colours.length];
+    	heart.style.pointerEvents="none";
+        if (navigator.appName=="Microsoft Internet Explorer") heart.style.filter="alpha(opacity=75)";
+        else heart.style.opacity=0.75;
+        heart.appendChild(document.createTextNode(String.fromCharCode(9829)));
+        document.body.appendChild(heart);
+        herz[i]=heart;
+    	herzy[i]=false;
+      }
+      set_scroll();
+      set_width();
+      herzle();
+    }}
+
+    function herzle() {
+      var c;
+      if (Math.abs(x-ox)>1 || Math.abs(y-oy)>1) {
+        ox=x;
+        oy=y;
+        for (c=0; c<hearts; c++) if (herzy[c]===false) {
+    	  herz[c].firstChild.nodeValue=String.fromCharCode(9829);
+          herz[c].style.left=(herzx[c]=x-minisize/2)+"px";
+          herz[c].style.top=(herzy[c]=y-minisize)+"px";
+          herz[c].style.fontSize=minisize+"px";
+    	  herz[c].style.fontWeight='normal';
+          herz[c].style.visibility='visible';
+          herzs[c]=minisize;
+          break;
+        }
+      }
+      for (c=0; c<hearts; c++) if (herzy[c]!==false) blow_me_a_kiss(c);
+      setTimeout("herzle()", 40);
+    }
+
+    document.onmousedown=pucker;
+    document.onmouseup=function(){clearTimeout(kiss);};
+
+    function pucker() {
+      ox=-1;
+      oy=-1;
+      kiss=setTimeout('pucker()', 100);
+    }
+
+    function blow_me_a_kiss(i) {
+      herzy[i]-=herzs[i]/minisize+i%2;
+      herzx[i]+=(i%5-2)/5;
+      if (herzy[i]<sdown-herzs[i] || herzx[i]<sleft-herzs[i] || herzx[i]>sleft+swide-herzs[i]) {
+        herz[i].style.visibility="hidden";
+        herzy[i]=false;
+      }
+      else if (herzs[i]>minisize+2 && Math.random()<.5/hearts) break_my_heart(i);
+      else {
+        if (Math.random()<maxisize/herzy[i] && herzs[i]<maxisize) herz[i].style.fontSize=(++herzs[i])+"px";
+        herz[i].style.top=herzy[i]+"px";
+        herz[i].style.left=herzx[i]+"px";
+      }
+    }
+
+    function break_my_heart(i) {
+      var t;
+      herz[i].firstChild.nodeValue=String.fromCharCode(9676);
+      herz[i].style.fontWeight='bold';
+      herzy[i]=false;
+      for (t=herzs[i]; t<=maxisize; t++) setTimeout('herz['+i+'].style.fontSize="'+t+'px"', 60*(t-herzs[i]));
+      setTimeout('herz['+i+'].style.visibility="hidden";', 60*(t-herzs[i]));
+    }
+
+    document.onmousemove=mouse;
+    function mouse(e) {
+      if (e) {
+        y=e.pageY;
+        x=e.pageX;
+      }
+      else {
+        set_scroll();
+        y=event.y+sdown;
+        x=event.x+sleft;
+      }
+    }
+
+    window.onresize=set_width;
+    function set_width() {
+      var sw_min=999999;
+      var sh_min=999999;
+      if (document.documentElement && document.documentElement.clientWidth) {
+        if (document.documentElement.clientWidth>0) sw_min=document.documentElement.clientWidth;
+        if (document.documentElement.clientHeight>0) sh_min=document.documentElement.clientHeight;
+      }
+      if (typeof(self.innerWidth)=='number' && self.innerWidth) {
+        if (self.innerWidth>0 && self.innerWidth<sw_min) sw_min=self.innerWidth;
+        if (self.innerHeight>0 && self.innerHeight<sh_min) sh_min=self.innerHeight;
+      }
+      if (document.body.clientWidth) {
+        if (document.body.clientWidth>0 && document.body.clientWidth<sw_min) sw_min=document.body.clientWidth;
+        if (document.body.clientHeight>0 && document.body.clientHeight<sh_min) sh_min=document.body.clientHeight;
+      }
+      if (sw_min==999999 || sh_min==999999) {
+        sw_min=800;
+        sh_min=600;
+      }
+      swide=sw_min;
+      shigh=sh_min;
+    }
+
+    window.onscroll=set_scroll;
+    function set_scroll() {
+      if (typeof(self.pageYOffset)=='number') {
+        sdown=self.pageYOffset;
+        sleft=self.pageXOffset;
+      }
+      else if (document.body && (document.body.scrollTop || document.body.scrollLeft)) {
+        sdown=document.body.scrollTop;
+        sleft=document.body.scrollLeft;
+      }
+      else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+        sleft=document.documentElement.scrollLeft;
+        sdown=document.documentElement.scrollTop;
+      }
+      else {
+        sdown=0;
+        sleft=0;
+      }
+    }
+
+    function createDiv(height, width) {
+      var div=document.createElement("div");
+      div.style.position="absolute";
+      div.style.height=height;
+      div.style.width=width;
+      div.style.overflow="hidden";
+      div.style.backgroundColor="transparent";
+      return (div);
+    }
+    // ]]>
+    </script>
+  </head>
+  <style type="text/css">
+p{
+text-align: center;
+padding:150px;
+}
+body {
+    background-color: #ffeb60;
+}
+</style>
+
+  <body>
+
+    <p><img src="책장.png" width="1200" height="500" border="0" usemap="#ImageMap1" name="point"></p>
+    <map name="ImageMap1">
+    <area shape="rect" coords="178, 7, 290, 136"  onfocus="blur()"onmouseover="if(document.images) point.src='책장1.png'" onmouseout="if(document.images) point.src='책장.png'"style="CURSOR:hand;" title="준비 중입니다.">
+
+    <area shape="rect" coords="368, 7, 481, 137" href="index.html" onfocus="blur()"onmouseover="if(document.images) point.src='책장2.png'" onmouseout="if(document.images) point.src='책장.png'"onclick="javascript:window.open('여기까지 인용하세요','','width=500, height=500, scrollbars=no, resizable=no');return false" onfocus='this.blur()'>
+
+   <area shape="rect" coords="553, 9, 673, 136" href="index.html" onfocus="blur()"onmouseover="if(document.images) point.src='책장3.png'" onmouseout="if(document.images) point.src='책장.png'"onclick="javascript:window.open('희지의 세계','','width=500, height=500, scrollbars=no, resizable=no');return false" onfocus='this.blur()'>
+
+    <area shape="rect" coords="751, 9, 862, 137" href="index.html" onfocus="blur()"onmouseover="if(document.images) point.src='책장4.png'" onmouseout="if(document.images) point.src='책장.png'"onclick="javascript:window.open('구관조 씻기기','','width=500, height=500, scrollbars=no, resizable=no');return false" onfocus='this.blur()'>
+
+    <area shape="rect" coords="939, 7, 1052, 137" href="index.html" onfocus="blur()"onmouseover="if(document.images) point.src='책장5.png'" onmouseout="if(document.images) point.src='책장.png'"onclick="javascript:window.open('사랑을 위한 되풀이','','width=500, height=500, scrollbars=no, resizable=no');return false" onfocus='this.blur()'>
+
+    <area shape="rect" coords="277, 151, 390, 283" href="index.html" onfocus="blur()"onmouseover="if(document.images) point.src='책장6.png'" onmouseout="if(document.images) point.src='책장.png'"onclick="javascript:window.open('구의 증명','','width=500, height=150, scrollbars=no, resizable=no');return false" onfocus='this.blur()'>
+
+    <area shape="rect" coords="542, 153, 656, 283" href="index.html" onfocus="blur()"onmouseover="if(document.images) point.src='책장7.png'" onmouseout="if(document.images) point.src='책장.png'"onclick="javascript:window.open('모든 동물은 섹스 후 우울해진다','','width=500, height=150, scrollbars=no, resizable=no');return false" onfocus='this.blur()'>
+
+    <area shape="rect" coords="826, 150, 940, 282" href="index.html" onfocus="blur()"onmouseover="if(document.images) point.src='책장8.png'" onmouseout="if(document.images) point.src='책장.png'"onclick="javascript:window.open('사랑하고도 불행한','','width=500, height=150, scrollbars=no, resizable=no');return false" onfocus='this.blur()'>
+
+    <area shape="rect" coords="179, 292, 292, 424" href="index.html" onfocus="blur()"onmouseover="if(document.images) point.src='책장9.png'" onmouseout="if(document.images) point.src='책장.png'"onclick="javascript:window.open('여름 스피드','','width=500, height=200, scrollbars=no, resizable=no');return false" onfocus='this.blur()'>
+
+    <area shape="rect" coords="368, 291, 481, 423"  onfocus="blur()"onmouseover="if(document.images) point.src='책장10.png'" onmouseout="if(document.images) point.src='책장.png'"style="CURSOR:hand;" title="준비 중입니다.">
+
+    <area shape="rect" coords="560, 291, 673, 425" href="index.html" onfocus="blur()"onmouseover="if(document.images) point.src='책장11.png'" onmouseout="if(document.images) point.src='책장.png'"onclick="javascript:window.open('유병재 농담집','','width=500, height=120, scrollbars=no, resizable=no');return false" onfocus='this.blur()'>
+
+      <area shape="rect" coords="750, 291, 863, 422" href="index.html" onfocus="blur()"onmouseover="if(document.images) point.src='책장12.png'" onmouseout="if(document.images) point.src='책장.png'"onclick="javascript:window.open('그리고 당신의 애인','','width=500, height=400, scrollbars=no, resizable=no');return false" onfocus='this.blur()'>
+
+      <area shape="rect" coords="941, 293, 1052, 423"  onfocus="blur()"onmouseover="if(document.images) point.src='책장13.png'" onmouseout="if(document.images) point.src='책장.png'"style="CURSOR:hand;" title="준비 중입니다.">
+
+    </map>
+<iframe width="0%"  scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/646976820&color=%23ff0000&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+
+
+  </body>
+</html>
